@@ -22,3 +22,7 @@ body {
     bottom:0px;
     left:-15%;
 }
+
+.dropdown-button {
+    padding-left: 2vw;
+}

@@ -38,7 +38,7 @@ const Search: React.FC<Props> = (props) => {
       >
         {suggestions.map((suggestion) => (
           <button
-            className="row button button-outline"
+            className="row button button-outline dropdown-button"
             onClick={() => {
               setUpdated(false);
               props.found(suggestion);
