@@ -28,14 +28,21 @@ const LocationProvider: React.FC = (props) => {
     // }, 10000);
 
     // THIS IS ONLY FOR NOW
-    fetch(GEOLOCATION_API, { method: "POST" }).then((resp) =>
-      resp.json().then((loc) => {
-        setLocation(loc.location);
-        console.debug(loc.location);
-      })
-    );
+    // fetch(GEOLOCATION_API, { method: "POST" }).then((resp) =>
+    //   resp.json().then((loc) => {
+    //     setLocation(loc.location);
+    //     console.debug(loc.location);
+    //   })
+    // );
 
-    () => {
+    navigator.geolocation.watchPosition((location) => {
+      setLocation({
+        lat: location.coords.latitude,
+        lng: location.coords.longitude,
+      });
+    });
+
+    return () => {
       if (timer.current) clearInterval(timer.current);
     };
   }, []);
