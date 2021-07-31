@@ -29,6 +29,8 @@ const Dashboard: React.FC<Props> = (props) => {
     }
     
   }, [location, props.destination]);
+  
+  let temperature = 0; // 0 cold, 100 hot
 
   if (location && props.destination && originalDistance) {
     return (
@@ -37,7 +39,8 @@ const Dashboard: React.FC<Props> = (props) => {
           Cool, lets go to {props.destination.lat},{props.destination.lng} from{" "}
           {location?.lat},{location?.lng} with distance {distance} KM.
         </p>
-        <img src={Tree} className="tree" />
+        
+        <img src={Tree} className="tree" style={{filter: `sepia(${(temperature - 50) * 2})`, WebkitFilter: `sepia(${(temperature - 50) * 2}%)`}} />
 
         <p>
           {closer ? 
@@ -45,6 +48,7 @@ const Dashboard: React.FC<Props> = (props) => {
             "colder (further)"
         }
         </p>
+     
       </div>
     );
   }

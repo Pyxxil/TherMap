@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Location } from "./Location";
 
+import "./styles.css";
+
 interface Props {
   found: (_?: Location) => void;
 }
@@ -35,16 +37,9 @@ const Search: React.FC<Props> = (props) => {
         }}
       />
       <div
-        className="container"
+        className="container suggestions"
         style={{
           display: !updated || destination.length === 0 ? "none" : "block",
-          position: "absolute",
-          left: 0,
-          width: "100%",
-          boxShadow: "0px 8px 16px 0px rgba(0,0,0,0.2)",
-          zIndex: 1,
-          padding: 10,
-          backgroundColor: "white",
         }}
       >
         {suggestions
@@ -54,9 +49,10 @@ const Search: React.FC<Props> = (props) => {
           .map((suggestion) => (
             <button
               key={suggestion.name}
-              className="row button button-outline"
+              className="row button button-outline dropdown-button"
               onClick={() => {
                 setUpdated(false);
+                setDestination(suggestion.name);
                 props.found(suggestion.location);
               }}
             >
