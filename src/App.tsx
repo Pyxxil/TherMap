@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import Dashboard from "./Dashboard";
+import { LocationContext } from "./Location";
 import Search from "./Search";
 
 const App: React.FC = () => {
   const [destination, setDestination] = useState("");
+
+  const { location } = useContext(LocationContext);
 
   return (
     <div className="container">
@@ -13,6 +16,8 @@ const App: React.FC = () => {
       <Search found={setDestination} />
 
       <Dashboard destination={destination} />
+
+      {location?.lat}
     </div>
   );
 };
