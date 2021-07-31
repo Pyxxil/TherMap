@@ -16,9 +16,9 @@ body {
 .tree {
     width: 160vw;
     max-width: 160vw;
-    position: absolute;
     margin-left: -20px;
-    position:fixed;
-    bottom:0px;
-    left:-15%;
+    position: fixed;
+    bottom: 0px;
+    left: -15%;
+    z-index: -1;
 }
