@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { Location, LocationContext } from "./Location";
-import { EuclideanDistance, determineFlameLeft, determineSnowFlakeLeft, determineSnowFlakeBottom } from './Utils';
+import { EuclideanDistance, determineFlameLeft, determinePosition } from './Utils';
 import { fireLocations, snowLocations, groundSnowLocations, generateSnowflakes } from "./constants";
 
 import Tree from "./img/tree.png";
@@ -33,7 +33,7 @@ const Dashboard: React.FC<Props> = (props) => {
     
   }, [location, props.destination]);
   
-  let temperature = 0; // 0 cold, 100 hot
+  let temperature = 10; // 0 cold, 100 hot
   let snowflakeLocations = generateSnowflakes;
 
   console.log(snowflakeLocations);
@@ -76,7 +76,7 @@ const Dashboard: React.FC<Props> = (props) => {
         
         {temperature < 50 && snowflakeLocations.map((snowflakeLocation) => {
           return <img src={snowflakeLocation[0]} className="snow" 
-            style={{bottom: determineSnowFlakeLeft(snowflakeLocation[1],  determineSnowFlakeSize(snowflakeLocation[3]).toString()), left: determineSnowFlakeLeft(snowflakeLocation[2],  determineSnowFlakeSize(snowflakeLocation[3]).toString()), width: determineSnowFlakeSize(snowflakeLocation[3])}}/>
+            style={{bottom: determinePosition(snowflakeLocation[1],  determineSnowFlakeSize(snowflakeLocation[3]).toString()), left: determinePosition(snowflakeLocation[2],  determineSnowFlakeSize(snowflakeLocation[3]).toString()), width: determineSnowFlakeSize(snowflakeLocation[3])}}/>
         })}
 
         {temperature > 50 && fireLocations.map((fireLocation) => {

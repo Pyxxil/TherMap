@@ -29,12 +29,8 @@ export function determineFlameLeft(left: string, size: string) {
   return parseInt(left) - parseInt(size) / 2;
 }
 
-export function determineSnowFlakeLeft(left: any, size: string) {
-  return parseInt(left) - parseInt(size) / 2;
-}
-
-export function determineSnowFlakeBottom(bottom: any, size: string) {
-  return parseInt(bottom) - parseInt(size) / 2;
+export function determinePosition(original: any, size: string) {
+  return parseInt(original) - parseInt(size) / 2;
 }
 
 export function getSnowflakeX() {
