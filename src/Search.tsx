@@ -1,16 +1,23 @@
 import React, { useState } from "react";
+import { Location } from "./Location";
 
 interface Props {
-  found: (_: string) => void;
+  found: (_?: Location) => void;
 }
 
 const Search: React.FC<Props> = (props) => {
   const [updated, setUpdated] = useState(false);
   const [destination, setDestination] = useState("");
-  const [suggestions, setSuggestions] = useState([
-    "test",
-    "auckland",
-    "Grid AKL",
+  const [suggestions, setSuggestions] = useState<
+    { name: string; location: Location }[]
+  >([
+    { name: "Grid AKL", location: { lat: -36.8421652, lng: 174.7565977 } },
+    { name: "Sky Tower", location: { lat: -36.848448, lng: 174.7600023 } },
+    {
+      name: "The University of Auckland",
+      location: { lat: -36.8523378, lng: 174.7669186 },
+    },
+    { name: "Albert Park", location: { lat: -36.8506426, lng: 174.7656994 } },
   ]);
 
   const nearbyLocations = async (latitude, longitude) => {
@@ -121,7 +128,13 @@ const Search: React.FC<Props> = (props) => {
         onChange={(event) => {
           setUpdated(true);
           setDestination(event.target.value);
+<<<<<<< HEAD
           run(1.11,2.22);
+=======
+          if (event.target.value.length === 0) {
+            props.found(undefined);
+          }
+>>>>>>> d23a788f7ddac7bb27b22fe2ac6e3c7e8a6513a7
         }}
       />
       <div
@@ -137,17 +150,22 @@ const Search: React.FC<Props> = (props) => {
           backgroundColor: "white",
         }}
       >
-        {suggestions.map((suggestion) => (
-          <button
-            className="row button button-outline"
-            onClick={() => {
-              setUpdated(false);
-              props.found(suggestion);
-            }}
-          >
-            {suggestion}
-          </button>
-        ))}
+        {suggestions
+          .filter((suggestion) =>
+            suggestion.name.toLowerCase().includes(destination.toLowerCase())
+          )
+          .map((suggestion) => (
+            <button
+              key={suggestion.name}
+              className="row button button-outline"
+              onClick={() => {
+                setUpdated(false);
+                props.found(suggestion.location);
+              }}
+            >
+              {suggestion.name}
+            </button>
+          ))}
       </div>
     </div>
   );

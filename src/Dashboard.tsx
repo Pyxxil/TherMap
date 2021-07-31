@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
+
+import { Location, LocationContext } from "./Location";
 
 import Tree from "./img/tree.png";
-
-import "./styles.css"
+import "./styles.css";
 
 interface Props {
-  destination: string;
+  destination?: Location;
 }
 
-const Dashboard: React.FC<Props> = (props: any) => {
-  if (props.destination.length > 0) {
-    return <div>Cool, lets go to {props.destination}
-      <img src={Tree} className="tree" />
-    </div>;
+const Dashboard: React.FC<Props> = (props) => {
+  const { location } = useContext(LocationContext);
+
+  if (props.destination) {
+    return (
+      <div>
+        <p>
+          Cool, lets go to {props.destination.lat},{props.destination.lng} from{" "}
+          {location?.lat},{location?.lng}
+        </p>
+        <img src={Tree} className="tree" />
+      </div>
+    );
   }
 
   return <></>;
