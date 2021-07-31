@@ -3,11 +3,14 @@ import ReactDOM from "react-dom";
 
 import "milligram";
 
+import LocationProvider from "./Location";
 import App from "./App";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <LocationProvider>
+      <App />
+    </LocationProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
