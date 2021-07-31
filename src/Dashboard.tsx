@@ -1,16 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { Location, LocationContext } from "./Location";
-import { EuclideanDistance } from './Utils';
+import { EuclideanDistance, getFlameLeft } from './Utils';
 
 import Tree from "./img/tree.png";
 import "./styles.css";
+import { fireLocations } from "./constants";
 
 interface Props {
   destination?: Location;
 }
 
 const Dashboard: React.FC<Props> = (props) => {
+
   const { location } = useContext(LocationContext);
   const [distance, setDistance]= useState(0);
   const [originalDistance, setOriginalDistance] = useState<number>();
@@ -30,7 +32,7 @@ const Dashboard: React.FC<Props> = (props) => {
     
   }, [location, props.destination]);
   
-  let temperature = 0; // 0 cold, 100 hot
+  let temperature = 100; // 0 cold, 100 hot
 
   if (location && props.destination && originalDistance) {
     return (
@@ -40,8 +42,6 @@ const Dashboard: React.FC<Props> = (props) => {
           {location?.lat},{location?.lng} with distance {distance} KM.
         </p>
         
-        <img src={Tree} className="tree" style={{filter: `sepia(${(temperature - 50) * 2})`, WebkitFilter: `sepia(${(temperature - 50) * 2}%)`}} />
-
         <p>
           {closer ? 
             "warmer (closer)":
@@ -49,6 +49,13 @@ const Dashboard: React.FC<Props> = (props) => {
         }
         </p>
      
+      <img src={Tree} className="tree" 
+        style={{filter: `sepia(${(temperature - 50) * 2})`, WebkitFilter: `sepia(${(temperature - 50) * 2}%)`}} />
+
+      {temperature > 50 && fireLocations.map((location: string[]) => {
+        return <img src={location[0]} style={{bottom: location[1], left: getFlameLeft(location[2], location[3]), width: location[3] + "px"}} className="fire" key={location[1] + location[2]} />
+      })}
+
       </div>
     );
   }
