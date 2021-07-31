@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Location } from "./Location";
 
+import { DETOUR_API } from "./constants";
+
 import "./styles.css";
 
 interface Props {
@@ -22,19 +24,6 @@ const Search: React.FC<Props> = (props) => {
     { name: "Albert Park", location: { lat: -36.8506426, lng: 174.7656994 } },
     { name: "Pakuranga", location: { lat: -36.88333, lng: 174.91667}}
   ]);
-  const [detour, setDetour] = useState("");
-
-  const nearbyLocations = async (currentLat, currentLng) => {
-    const jsonResponse = await fetch("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + currentLat + "," + currentLng + "&radius=1000&key=YOUR_API_KEY");
-    const results = await jsonResponse.json();
-    console.log(results)
-    //set temp destination to a random location from results
-    const index = Math.floor(Math.random() * results.candidates.length)
-    const detourLat = results.candidates[index].geometry.location.lat
-    const detourLng = results.candidates[index].geometry.location.lng 
-    //use setDetour and create ternary operator in return checking if detour in progress
-    //if detour === "" ? mapToDestination : mapToDetour
-  }
 
   return (
     <div>
