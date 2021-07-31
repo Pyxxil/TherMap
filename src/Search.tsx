@@ -20,6 +20,7 @@ const Search: React.FC<Props> = (props) => {
       location: { lat: -36.8523378, lng: 174.7669186 },
     },
     { name: "Albert Park", location: { lat: -36.8506426, lng: 174.7656994 } },
+    { name: "Pakuranga", location: { lat: -36.88333, lng: 174.91667}}
   ]);
 
   return (

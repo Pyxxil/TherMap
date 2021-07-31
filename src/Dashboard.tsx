@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Location, LocationContext } from "./Location";
+import { EuclideanDistance } from './Utils';
 
 import Tree from "./img/tree.png";
 
@@ -26,6 +27,24 @@ interface Props {
 
 const Dashboard: React.FC<Props> = (props) => {
   const { location } = useContext(LocationContext);
+  const [distance, setDistance]= useState(0);
+  const [originalDistance, setOriginalDistance] = useState<number>();
+  const [closer, setCloser] = useState(false);
+
+  useEffect(() => {
+    if (!originalDistance && location && props.destination){
+      const newDistance = EuclideanDistance(location, props.destination);
+      setOriginalDistance(newDistance);
+      setDistance(newDistance);
+      setCloser(newDistance < distance);
+    } else if (location && props.destination){
+      const newDistance = EuclideanDistance(location, props.destination);
+      setDistance(EuclideanDistance(location, props.destination));
+      setCloser(newDistance < distance);
+    }
+    
+  }, [location, props.destination]);
+  
   let temperature = 0; // 0 cold, 100 hot
 
   // image, bottom, left, width, height, angle, flip
@@ -61,14 +80,24 @@ const Dashboard: React.FC<Props> = (props) => {
                               [Snow18, "10px", "150px", "200px", "auto", "0deg", "1"],
                               [Snow18, "-8px", "200px", "220px", "auto", "0deg", "1"]];
 
-  if (props.destination) {
+  if (location && props.destination && originalDistance) {
     return (
       <div>
         <p>
           Cool, lets go to {props.destination.lat},{props.destination.lng} from{" "}
-          {location?.lat},{location?.lng}
+          {location?.lat},{location?.lng} with distance {distance} KM.
         </p>
-        <img src={Tree} className="tree" />
+        
+        <p>
+          { closer ? 
+            "warmer (closer)":
+            "colder (further)"
+          }
+        </p>
+
+        <img src={Tree} className="tree" 
+          style={{filter: `sepia(${(temperature - 50) * 2})`, WebkitFilter: `sepia(${(temperature - 50) * 2}%)`}} />
+          
         {snowLocations.map((location: string[]) => {
           console.log(location[0]);
           return <img src={location[0]} className="snow" style={{bottom: location[1], left: location[2], width: location[3], height: location[4], transform: `rotate(${location[5]}) scaleX(${location[6]})`}}/>
@@ -83,6 +112,7 @@ const Dashboard: React.FC<Props> = (props) => {
           console.log(location[0]);
           return <img src={location[0]} className="snow" style={{bottom: location[1], left: location[2], width: location[3], height: location[4], transform: `rotate(${location[5]}) scaleX(${location[6]})`}}/>
         })} */}
+     
       </div>
     );
   }
