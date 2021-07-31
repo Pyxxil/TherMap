@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { Location, LocationContext } from "./Location";
-import { EuclideanDistance } from "./Utils";
 
 import WarmerAudio from "./Warmer.mp3";
 import ColderAudio from "./Colder.mp3";
+import { EuclideanDistance, getFlameLeft, generateSnowflakes } from "./Utils";
+import { fireLocations, snowLocations, groundSnowLocations } from "./constants";
 
 import Tree from "./img/tree.png";
+
 import "./styles.css";
 
 interface Props {
@@ -18,6 +20,7 @@ const Dashboard: React.FC<Props> = (props) => {
   const [distance, setDistance] = useState(0);
   const [originalDistance, setOriginalDistance] = useState<number>();
   const [closer, setCloser] = useState(false);
+  const [temperature, setTemparature] = useState(49); // 0 cold, 100 hot
 
   useEffect(() => {
     if (!originalDistance && location && props.destination) {
@@ -32,32 +35,97 @@ const Dashboard: React.FC<Props> = (props) => {
     }
   }, [location, props.destination]);
 
-  let temperature = 0; // 0 cold, 100 hot
+  let snowflakeLocations = generateSnowflakes();
 
-  if (location && props.destination && originalDistance) {
-    return (
-      <div>
-        <p>
-          Cool, lets go to {props.destination.lat},{props.destination.lng} from{" "}
-          {location?.lat},{location?.lng} with distance {distance} KM.
-        </p>
-
-        <img
-          src={Tree}
-          className="tree"
-          style={{
-            filter: `sepia(${(temperature - 50) * 2})`,
-            WebkitFilter: `sepia(${(temperature - 50) * 2}%)`,
-          }}
-        />
-
-        <audio src={closer ? WarmerAudio : ColderAudio} autoPlay loop></audio>
-        <p>{closer ? "warmer (closer)" : "colder (further)"}</p>
-      </div>
-    );
+  if (!(location && props.destination && originalDistance)) {
+    return <></>;
   }
 
-  return <></>;
+  return (
+    <div>
+      <p>
+        Cool, lets go to {props.destination.lat},{props.destination.lng} from{" "}
+        {location?.lat},{location?.lng} with distance {distance} KM.
+      </p>
+
+      <audio src={closer ? WarmerAudio : ColderAudio} autoPlay loop></audio>
+
+      <p>{closer ? "warmer (closer)" : "colder (further)"}</p>
+
+      <img
+        src={Tree}
+        className="tree"
+        style={{
+          filter: `sepia(${(temperature - 50) * 2})`,
+          WebkitFilter: `sepia(${(temperature - 50) * 2}%)`,
+        }}
+      />
+
+      {temperature < 50 &&
+        snowLocations.map((location) => {
+          return (
+            <img
+              src={location[0]}
+              className="snow"
+              style={{
+                bottom: location[1],
+                left: location[2],
+                width: location[3],
+                height: location[4],
+                transform: `rotate(${location[5]}) scaleX(${location[6]})`,
+              }}
+            />
+          );
+        })}
+
+      {temperature < 50 &&
+        groundSnowLocations.map((location) => {
+          return (
+            <img
+              src={location[0]}
+              className="snow"
+              style={{
+                bottom: location[1],
+                left: location[2],
+                width: location[3],
+                transform: `scaleX(${location[4]})`,
+              }}
+            />
+          );
+        })}
+
+      {temperature < 50 &&
+        snowflakeLocations.map((location) => {
+          return (
+            <img
+              src={location[0]}
+              className="snow"
+              style={{
+                bottom: location[1],
+                left: location[2],
+                width: location[3],
+              }}
+            />
+          );
+        })}
+
+      {temperature > 50 &&
+        fireLocations.map((location) => {
+          return (
+            <img
+              src={location[0]}
+              style={{
+                bottom: location[1],
+                left: getFlameLeft(location[2], location[3]),
+                width: location[3] + "px",
+              }}
+              className="fire"
+              key={location[1] + location[2]}
+            />
+          );
+        })}
+    </div>
+  );
 };
 
 export default Dashboard;
