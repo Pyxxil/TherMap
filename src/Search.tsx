@@ -56,6 +56,7 @@ const Search: React.FC<Props> = (props) => {
               className="row button button-outline"
               onClick={() => {
                 setUpdated(false);
+                setDestination(suggestion.name);
                 props.found(suggestion.location);
               }}
             >
