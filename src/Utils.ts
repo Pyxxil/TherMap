@@ -25,8 +25,16 @@ export function getFlameImage() {
   return Math.random() > 0.5 ? Fire1 : Fire2;
 }
 
-export function getFlameLeft(left: string, size: string) {
-  return (parseInt(left) - parseInt(size) / 2).toString() + "px";
+export function determineFlameLeft(left: string, size: string) {
+  return parseInt(left) - parseInt(size) / 2;
+}
+
+export function determineSnowFlakeLeft(left: any, size: string) {
+  return parseInt(left) - parseInt(size) / 2;
+}
+
+export function determineSnowFlakeBottom(bottom: any, size: string) {
+  return parseInt(bottom) - parseInt(size) / 2;
 }
 
 export function getSnowflakeX() {
@@ -49,10 +57,10 @@ export function getSnowflakeImage() {
   if (randomInt == 3) return Snowflake4;
 }
 
-export function generateSnowflakes() {
-  var snowflakes = [];
-  for (var i = 0; i < 50; i++) {
-    snowflakes.push([getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()]);
-  }
-  return snowflakes;
-}
+// export function generateSnowflakes() {
+//   var snowflakes = [];
+//   for (var i = 0; i < 50; i++) {
+//     snowflakes.push([getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()]);
+//   }
+//   return snowflakes;
+// }
