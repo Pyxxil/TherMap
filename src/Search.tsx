@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { SEARCH_API } from "./constants";
 import { Location } from "./Location";
 
 import "./styles.css";
@@ -20,8 +21,25 @@ const Search: React.FC<Props> = (props) => {
       location: { lat: -36.8523378, lng: 174.7669186 },
     },
     { name: "Albert Park", location: { lat: -36.8506426, lng: 174.7656994 } },
-    { name: "Pakuranga", location: { lat: -36.88333, lng: 174.91667}}
+    { name: "Pakuranga", location: { lat: -36.88333, lng: 174.91667 } },
   ]);
+
+  useEffect(() => {
+    // if (destination.length > 0) {
+    //   fetch(`${SEARCH_API}&input=${destination}`, { method: "POST" }).then(
+    //     (resp) => {
+    //       resp.json().then((locations: any[]) => {
+    //         console.debug(locations);
+    //         // setSuggestions(
+    //         //   locations
+    //         //     .filter((location) => !!location.geometry)
+    //         //     .map((location) => {})
+    //         // );
+    //       });
+    //     }
+    //   );
+    // }
+  }, [destination]);
 
   return (
     <div>
