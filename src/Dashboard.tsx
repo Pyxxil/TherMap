@@ -13,23 +13,26 @@ interface Props {
 const Dashboard: React.FC<Props> = (props) => {
   const { location } = useContext(LocationContext);
   const [distance, setDistance]= useState(0);
-  const [originalDistance, setOriginalDistance] = useState(0);
+  const [originalDistance, setOriginalDistance] = useState<number>();
+  const [closer, setCloser] = useState(false);
 
   useEffect(() => {
-    let distance;
-
-    if (originalDistance == 0 && location && props.destination){
-      setOriginalDistance(EuclideanDistance(location, props.destination));
-      setDistance(EuclideanDistance(location, props.destination));
+    if (!originalDistance && location && props.destination){
+      const newDistance = EuclideanDistance(location, props.destination);
+      setOriginalDistance(newDistance);
+      setDistance(newDistance);
+      setCloser(newDistance < distance);
     } else if (location && props.destination){
+      const newDistance = EuclideanDistance(location, props.destination);
       setDistance(EuclideanDistance(location, props.destination));
+      setCloser(newDistance < distance);
     }
     
   }, [location, props.destination]);
   
   let temperature = 0; // 0 cold, 100 hot
 
-  if (props.destination) {
+  if (location && props.destination && originalDistance) {
     return (
       <div>
         <p>
@@ -40,14 +43,10 @@ const Dashboard: React.FC<Props> = (props) => {
         <img src={Tree} className="tree" style={{filter: `sepia(${(temperature - 50) * 2})`, WebkitFilter: `sepia(${(temperature - 50) * 2}%)`}} />
 
         <p>
-          {distance - originalDistance < 0 ? 
-          <div>
-            warmer (closer)
-          </div> : distance - originalDistance > 0 ?
-          <p>colder (further)</p> : 
-          <div>
-            same
-          </div>}
+          {closer ? 
+            "warmer (closer)":
+            "colder (further)"
+        }
         </p>
      
       </div>
