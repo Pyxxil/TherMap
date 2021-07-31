@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Location } from "./Location";
 
+import "./styles.css"
+
 interface Props {
   found: (_?: Location) => void;
 }
@@ -128,44 +130,28 @@ const Search: React.FC<Props> = (props) => {
         onChange={(event) => {
           setUpdated(true);
           setDestination(event.target.value);
-<<<<<<< HEAD
-          run(1.11,2.22);
-=======
           if (event.target.value.length === 0) {
             props.found(undefined);
           }
->>>>>>> d23a788f7ddac7bb27b22fe2ac6e3c7e8a6513a7
         }}
       />
       <div
-        className="container"
+        className="container suggestions"
         style={{
-          display: !updated || destination.length === 0 ? "none" : "block",
-          position: "absolute",
-          left: 0,
-          width: "100%",
-          boxShadow: "0px 8px 16px 0px rgba(0,0,0,0.2)",
-          zIndex: 1,
-          padding: 10,
-          backgroundColor: "white",
+          display: !updated || destination.length === 0 ? "none" : "block"
         }}
       >
-        {suggestions
-          .filter((suggestion) =>
-            suggestion.name.toLowerCase().includes(destination.toLowerCase())
-          )
-          .map((suggestion) => (
-            <button
-              key={suggestion.name}
-              className="row button button-outline"
-              onClick={() => {
-                setUpdated(false);
-                props.found(suggestion.location);
-              }}
-            >
-              {suggestion.name}
-            </button>
-          ))}
+        {suggestions.map((suggestion) => (
+          <button
+            className="row button button-outline dropdown-button"
+            onClick={() => {
+              setUpdated(false);
+              props.found(suggestion);
+            }}
+          >
+            {suggestion}
+          </button>
+        ))}
       </div>
     </div>
   );
