@@ -20,7 +20,8 @@ const Dashboard: React.FC<Props> = (props) => {
           Cool, lets go to {props.destination.lat},{props.destination.lng} from{" "}
           {location?.lat},{location?.lng}
         </p>
-        <img src={Tree} className="tree" />
+      <img src={Tree} className="tree" 
+        style={{filter: `sepia(${(temperature - 50) * 2})`, WebkitFilter: `sepia(${(temperature - 50) * 2}%)`}} />
       </div>
     );
   }
