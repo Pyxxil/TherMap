@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Location } from "./Location";
 
-import "./styles.css"
+import "./styles.css";
 
 interface Props {
   found: (_?: Location) => void;
@@ -20,6 +20,7 @@ const Search: React.FC<Props> = (props) => {
       location: { lat: -36.8523378, lng: 174.7669186 },
     },
     { name: "Albert Park", location: { lat: -36.8506426, lng: 174.7656994 } },
+    { name: "Pakuranga", location: { lat: -36.88333, lng: 174.91667}}
   ]);
   const [detour, setDetour] = useState("");
 
@@ -51,20 +52,26 @@ const Search: React.FC<Props> = (props) => {
       <div
         className="container suggestions"
         style={{
-          display: !updated || destination.length === 0 ? "none" : "block"
+          display: !updated || destination.length === 0 ? "none" : "block",
         }}
       >
-        {suggestions.map((suggestion) => (
-          <button
-            className="row button button-outline dropdown-button"
-            onClick={() => {
-              setUpdated(false);
-              props.found(suggestion);
-            }}
-          >
-            {suggestion}
-          </button>
-        ))}
+        {suggestions
+          .filter((suggestion) =>
+            suggestion.name.toLowerCase().includes(destination.toLowerCase())
+          )
+          .map((suggestion) => (
+            <button
+              key={suggestion.name}
+              className="row button button-outline dropdown-button"
+              onClick={() => {
+                setUpdated(false);
+                setDestination(suggestion.name);
+                props.found(suggestion.location);
+              }}
+            >
+              {suggestion.name}
+            </button>
+          ))}
       </div>
     </div>
   );
