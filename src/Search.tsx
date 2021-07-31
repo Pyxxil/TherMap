@@ -35,6 +35,7 @@ const Search: React.FC<Props> = (props) => {
             props.found(undefined);
           }
         }}
+        className="input-field"
       />
       <div
         className="container suggestions"

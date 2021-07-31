@@ -12,6 +12,7 @@ h1 {
 body {
   margin: 0px;
   border: 0px;
+  background: black;
 }
 
 .tree {
@@ -23,8 +24,20 @@ body {
   z-index: -1;
 }
 
+.snow {
+  position: fixed;
+}
+
+.fire {
+  position: fixed;
+}
+
 .dropdown-button {
   padding-left: 2vw;
+}
+
+.input-field {
+  color: #FFFFFF;
 }
 
 .suggestions {
@@ -33,13 +46,10 @@ body {
   left: 0;
   width: 100%;
   z-index: 1;
-  background-color: white;
 }
 
 .row {
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
 
-.fire {
-    position: fixed;
-}
+
