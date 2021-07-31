@@ -48,3 +48,11 @@ export function getSnowflakeImage() {
   if (randomInt == 2) return Snowflake3;
   if (randomInt == 3) return Snowflake4;
 }
+
+export function generateSnowflakes() {
+  var snowflakes = [];
+  for (var i = 0; i < 50; i++) {
+    snowflakes.push([getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()]);
+  }
+  return snowflakes;
+}

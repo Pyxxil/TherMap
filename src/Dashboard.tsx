@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { Location, LocationContext } from "./Location";
-import { EuclideanDistance, getFlameLeft } from './Utils';
-import { fireLocations, snowLocations, groundSnowLocations, snowflakeLocations } from "./constants";
+import { EuclideanDistance, getFlameLeft, generateSnowflakes } from './Utils';
+import { fireLocations, snowLocations, groundSnowLocations } from "./constants";
 
 import Tree from "./img/tree.png";
 
@@ -34,6 +34,7 @@ const Dashboard: React.FC<Props> = (props) => {
   }, [location, props.destination]);
   
   let temperature = 49; // 0 cold, 100 hot
+  let snowflakeLocations = generateSnowflakes();
 
   if (location && props.destination && originalDistance) {
     return (
@@ -53,19 +54,19 @@ const Dashboard: React.FC<Props> = (props) => {
         <img src={Tree} className="tree" 
           style={{filter: `sepia(${(temperature - 50) * 2})`, WebkitFilter: `sepia(${(temperature - 50) * 2}%)`}} />
           
-        {temperature < 50 && snowLocations.map((location: string[]) => {
+        {temperature < 50 && snowLocations.map((location) => {
           return <img src={location[0]} className="snow" style={{bottom: location[1], left: location[2], width: location[3], height: location[4], transform: `rotate(${location[5]}) scaleX(${location[6]})`}}/>
         })}
 
-        {temperature < 50 && groundSnowLocations.map((location: string[]) => {
+        {temperature < 50 && groundSnowLocations.map((location) => {
           return <img src={location[0]} className="snow" style={{bottom: location[1], left: location[2], width: location[3], transform: `scaleX(${location[4]})`}}/>
         })}
-
-        {temperature < 50 && snowflakeLocations.map((location: any[]) => {
+        
+        {temperature < 50 && snowflakeLocations.map((location) => {
           return <img src={location[0]} className="snow" style={{bottom: location[1], left: location[2], width: location[3]}}/>
         })}
 
-        {temperature > 50 && fireLocations.map((location: string[]) => {
+        {temperature > 50 && fireLocations.map((location) => {
           return <img src={location[0]} style={{bottom: location[1], left: getFlameLeft(location[2], location[3]), width: location[3] + "px"}} className="fire" key={location[1] + location[2]} />
         })}
 

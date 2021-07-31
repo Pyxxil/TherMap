@@ -36,69 +36,35 @@ export const fireLocations = [ // image, bottom, left, size
     [getFlameImage(), "-10px", "100", getFlameSize()]
   ]
 
-// image, bottom, left, width
-export const snowflakeLocations = [
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-  [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()],
-]
-
 // image, bottom, left, width, height, angle, flip
 export const snowLocations = [
-  [Snow3, "280px", "-10px", "80px", "auto", "0deg", "1"], 
-  [Snow16, "370px", "90px", "130px", "70px", "0deg", "1"], 
-  [Snow17, "250px", "300px", "80px", "100px", "0deg", "1"], 
-  [Snow7, "270px", "140px", "150px", "70px", "0deg", "1"],
-  [Snow5, "200px", "-5px", "150px", "80px", "0deg", "1"],
-  [Snow9, "140px", "10px", "50px", "auto", "0deg", "-1"],
-  [Snow10, "130px", "80px", "60px", "40px", "0deg", "1"],
-  [Snow10, "125px", "180px", "60px", "40px", "-35deg", "-1"],
-  [Snow9, "170px", "260px", "50px", "auto", "-30deg", "1"]
-]
+    [Snow3, "280px", "-10px", "80px", "auto", "0deg", "1"], 
+    [Snow16, "370px", "90px", "130px", "70px", "0deg", "1"], 
+    [Snow17, "250px", "300px", "80px", "100px", "0deg", "1"], 
+    [Snow7, "270px", "140px", "150px", "70px", "0deg", "1"],
+    [Snow5, "200px", "-5px", "150px", "80px", "0deg", "1"],
+    [Snow9, "140px", "10px", "50px", "auto", "0deg", "-1"],
+    [Snow10, "130px", "80px", "60px", "40px", "0deg", "1"],
+    [Snow10, "125px", "180px", "60px", "40px", "-35deg", "-1"],
+    [Snow9, "170px", "260px", "50px", "auto", "-30deg", "1"]
+  ]
 
 // image, bottom, left, width, flip                             
 export const groundSnowLocations = [
-  [Snow18, "45px", "-6px", "160px", "-1"],
-  [Snow18, "35px", "205px", "150px", "-1"],
-  [Snow18, "40px", "270px", "140px", "1"],
-  [Snow18, "20px", "280px", "120px", "1"],
-  [Snow18, "10px", "230px", "120px", "1"],
-  [Snow18, "10px", "190px", "130px", "-1"],
-  [Snow18, "15px", "135px", "120px", "-1"],
-  [Snow18, "10px", "110px", "120px","-1"],
-  [Snow18, "20px", "90px", "150px", "1"],
-  [Snow18, "20px", "40px", "150px", "1"],
-  [Snow18, "23px", "-30px", "160px", "-1"],
-  [Snow18, "-5px", "-30px", "160px", "1"],
-  [Snow18, "-4px", "20px", "160px", "-1"],
-  [Snow18, "-10px", "80px", "160px", "1"],
-  [Snow18, "10px", "150px", "200px", "1"],
-  [Snow18, "-8px", "200px", "220px", "1"]
-]
+    [Snow18, "45px", "-6px", "160px", "-1"],
+    [Snow18, "35px", "205px", "150px", "-1"],
+    [Snow18, "40px", "270px", "140px", "1"],
+    [Snow18, "20px", "280px", "120px", "1"],
+    [Snow18, "10px", "230px", "120px", "1"],
+    [Snow18, "10px", "190px", "130px", "-1"],
+    [Snow18, "15px", "135px", "120px", "-1"],
+    [Snow18, "10px", "110px", "120px","-1"],
+    [Snow18, "20px", "90px", "150px", "1"],
+    [Snow18, "20px", "40px", "150px", "1"],
+    [Snow18, "23px", "-30px", "160px", "-1"],
+    [Snow18, "-5px", "-30px", "160px", "1"],
+    [Snow18, "-4px", "20px", "160px", "-1"],
+    [Snow18, "-10px", "80px", "160px", "1"],
+    [Snow18, "10px", "150px", "200px", "1"],
+    [Snow18, "-8px", "200px", "220px", "1"]
+  ]
