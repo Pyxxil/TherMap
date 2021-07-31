@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Location } from "./Location";
 
-import { DETOUR_API } from "./constants";
-
 import "./styles.css";
 
 interface Props {
@@ -51,6 +49,7 @@ const Search: React.FC<Props> = (props) => {
           setUpdated(true);
           setDestination(event.target.value);
         }}
+        className="input-field"
       />
     </div>
   );

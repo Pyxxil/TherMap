@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 
 import { Location, LocationContext } from "./Location";
-import { EuclideanDistance } from "./Utils";
+import { EuclideanDistance, getFlameLeft, generateSnowflakes } from './Utils';
+import { fireLocations, snowLocations, groundSnowLocations } from "./constants";
 
 import Tree from "./img/tree.png";
+
 import "./styles.css";
-import { DETOUR_API } from "./constants";
 
 interface Props {
   destination?: Location;
@@ -20,17 +21,21 @@ const Dashboard: React.FC<Props> = (props) => {
   const [detourLocation, setDetourLocation] = useState<Location>();
   const [detourName, setDetourName] = useState("");
   const savedCallback = useRef<number>();
+  const [closer, setCloser] = useState(false);
+  const [temperature, setTemperature] = useState(0);
 
   useEffect(() => {
-    if (originalDistance == 0 && location && props.destination) {
-      setOriginalDistance(EuclideanDistance(location, props.destination));
+    if (!originalDistance && location && props.destination){
+      const newDistance = EuclideanDistance(location, props.destination);
+      setOriginalDistance(newDistance);
+      setDistance(newDistance);
+      setCloser(newDistance < distance);
+    } else if (location && props.destination){
+      const newDistance = EuclideanDistance(location, props.destination);
       setDistance(EuclideanDistance(location, props.destination));
-    } else if (location && props.destination) {
-      setDistance(EuclideanDistance(location, props.destination));
+      setCloser(newDistance < distance);
     }
   }, [location, props.destination]);
-
-  let temperature = 0; // 0 cold, 100 hot
 
   useEffect(() => {
     savedCallback.current = setTimeout(() => nearbyLocations(), 10000);
@@ -69,7 +74,9 @@ const Dashboard: React.FC<Props> = (props) => {
     }
   }
 
-  if (props.destination) {
+  const snowflakeLocations = generateSnowflakes();
+
+  if (location && props.destination && originalDistance) {
     return (
       <div>
         <p>
@@ -78,15 +85,6 @@ const Dashboard: React.FC<Props> = (props) => {
         </p>
 
         { detour && <p>Detouring to: {detourName}</p>}
-
-        <img
-          src={Tree}
-          className="tree"
-          style={{
-            filter: `sepia(${(temperature - 50) * 2})`,
-            WebkitFilter: `sepia(${(temperature - 50) * 2}%)`,
-          }}
-        />
         <div style={{display: "none"}} ref={mapRef}></div>
 
         <p>
@@ -98,6 +96,33 @@ const Dashboard: React.FC<Props> = (props) => {
             <div>same</div>
           )}
         </p>
+        
+        <p>
+          { closer ? 
+            "warmer (closer)":
+            "colder (further)"
+          }
+        </p>
+
+        <img src={Tree} className="tree" 
+          style={{filter: `sepia(${(temperature - 50) * 2})`, WebkitFilter: `sepia(${(temperature - 50) * 2}%)`}} />
+          
+        {temperature < 50 && snowLocations.map((location) => {
+          return <img src={location[0]} className="snow" style={{bottom: location[1], left: location[2], width: location[3], height: location[4], transform: `rotate(${location[5]}) scaleX(${location[6]})`}}/>
+        })}
+
+        {temperature < 50 && groundSnowLocations.map((location) => {
+          return <img src={location[0]} className="snow" style={{bottom: location[1], left: location[2], width: location[3], transform: `scaleX(${location[4]})`}}/>
+        })}
+        
+        {temperature < 50 && snowflakeLocations.map((location: any[]) => {
+          return <img src={location[0]} className="snow" style={{bottom: location[1], left: location[2], width: location[3]}}/>
+        })}
+
+        {temperature > 50 && fireLocations.map((location) => {
+          return <img src={location[0]} style={{bottom: location[1], left: getFlameLeft(location[2], location[3]), width: location[3] + "px"}} className="fire" key={location[1] + location[2]} />
+        })}
+
       </div>
     );
   }
