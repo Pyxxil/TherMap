@@ -7,3 +7,18 @@ h1 {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+body {
+    margin: 0px;
+    border: 0px;
+}
+
+.tree {
+    width: 160vw;
+    max-width: 160vw;
+    position: absolute;
+    margin-left: -20px;
+    position:fixed;
+    bottom:0px;
+    left:-15%;
+}

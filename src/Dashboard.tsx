@@ -11,7 +11,7 @@ interface Props {
 const Dashboard: React.FC<Props> = (props: any) => {
   if (props.destination.length > 0) {
     return <div>Cool, lets go to {props.destination}
-      <img src={Tree} className="center" />
+      <img src={Tree} className="tree" />
     </div>;
   }
 
