@@ -13,10 +13,12 @@ interface Props {
 
 const Dashboard: React.FC<Props> = (props) => {
   const { location } = useContext(LocationContext);
+  const mapRef = useRef(null);
   const [distance, setDistance] = useState(0);
   const [originalDistance, setOriginalDistance] = useState(0);
   const [detour, setDetour] = useState(false);
-  const [detourLocation, setDetourLocation] = useState();
+  const [detourLocation, setDetourLocation] = useState<Location>();
+  const [detourName, setDetourName] = useState("");
   const savedCallback = useRef<number>();
 
   useEffect(() => {
@@ -31,7 +33,7 @@ const Dashboard: React.FC<Props> = (props) => {
   let temperature = 0; // 0 cold, 100 hot
 
   useEffect(() => {
-    savedCallback.current = setTimeout(() => nearbyLocations(), 3000);
+    savedCallback.current = setTimeout(() => nearbyLocations(), 10000);
     return () => {
       if (savedCallback.current) {
         clearTimeout(savedCallback.current);
@@ -39,25 +41,33 @@ const Dashboard: React.FC<Props> = (props) => {
     };
   }, [location]);
 
-  async function nearbyLocations() {
+  function nearbyLocations() {
     if (location) {
-      console.log("LOCATION:", location);
-      const jsonResponse = await fetch(DETOUR_API(location.lat, location.lng));
-      console.debug(jsonResponse);
-      const results = await jsonResponse.json();
-      console.log(results);
-      //set temp destination to a random location from results
-      const index = Math.floor(Math.random() * results.candidates.length);
-      const detourLat = results.candidates[index].geometry.location.lat;
-      const detourLng = results.candidates[index].geometry.location.lng;
-      setDetour(true);
-      //setDetourLocation( location: { lat: detourLat, lng: detourLng});
+      var currentCoordinates = new google.maps.LatLng(location.lat,location.lng);
+      var map = new google.maps.Map(mapRef.current!, {
+        center: currentCoordinates,
+      });
+      var service = new google.maps.places.PlacesService(map);
+      var request = {
+        location: currentCoordinates,
+        radius: 1000,
+      };
       //use setDetour and create ternary operator in return checking if detour in progress
       //if detour ? mapToDetour : mapToDestination
     }
   }
 
-  // console.log(location);
+  function callback(results: google.maps.places.PlaceResult[] | null, status: google.maps.places.PlacesServiceStatus) {
+    if (status == google.maps.places.PlacesServiceStatus.OK && results) {
+        console.log(results)
+        const index = Math.floor(Math.random() * results.length);
+        const detourLat = results[index].geometry?.location?.lat();
+        const detourLng = results[index].geometry?.location?.lng();
+        setDetourLocation({ lat: detourLat ?? 0, lng: detourLng ?? 0});
+        setDetourName(results[index].name ?? "");
+        setDetour(true);
+    }
+  }
 
   if (props.destination) {
     return (
@@ -67,6 +77,8 @@ const Dashboard: React.FC<Props> = (props) => {
           {location?.lat},{location?.lng} with distance {distance} KM.
         </p>
 
+        { detour && <p>Detouring to: {detourName}</p>}
+
         <img
           src={Tree}
           className="tree"
@@ -75,6 +87,7 @@ const Dashboard: React.FC<Props> = (props) => {
             WebkitFilter: `sepia(${(temperature - 50) * 2}%)`,
           }}
         />
+        <div style={{display: "none"}} ref={mapRef}></div>
 
         <p>
           {distance - originalDistance < 0 ? (
