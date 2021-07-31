@@ -7,6 +7,7 @@ h1 {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  z-index: 1;
 }
 
 body {
@@ -26,10 +27,12 @@ body {
 
 .snow {
   position: fixed;
+  z-index: -1;
 }
 
 .fire {
   position: fixed;
+  z-index: -1;
 }
 
 .dropdown-button {
