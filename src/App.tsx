@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import "./styles.css"
+
 import Dashboard from "./Dashboard";
 import Search from "./Search";
 
@@ -8,7 +10,7 @@ const App: React.FC = () => {
 
   return (
     <div className="container">
-      <h3 className="column">TherMap</h3>
+      <h1 className="column">TherMap</h1>
 
       <Search found={setDestination} />
 
