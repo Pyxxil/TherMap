@@ -21,105 +21,18 @@ const Search: React.FC<Props> = (props) => {
     },
     { name: "Albert Park", location: { lat: -36.8506426, lng: 174.7656994 } },
   ]);
+  const [detour, setDetour] = useState("");
 
-  const nearbyLocations = async (latitude, longitude) => {
-    const jsonResponse = await fetch("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + -33.8670522 + "," + 151.1957362 + "&radius=1000&key=YOUR_API_KEY");
+  const nearbyLocations = async (currentLat, currentLng) => {
+    const jsonResponse = await fetch("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + currentLat + "," + currentLng + "&radius=1000&key=YOUR_API_KEY");
     const results = await jsonResponse.json();
     console.log(results)
     //set temp destination to a random location from results
     const index = Math.floor(Math.random() * results.candidates.length)
     const detourLat = results.candidates[index].geometry.location.lat
     const detourLng = results.candidates[index].geometry.location.lng 
-  }
-
-  const run = (lat, long) => {
-    console.log(lat, long)
-    console.log("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + long + "&radius=500&key=YOUR_API_KEY")
-    const tempData = {
-      "candidates" : [
-         {
-            "formatted_address" : "140 George St, The Rocks NSW 2000, Australia",
-            "geometry" : {
-               "location" : {
-                  "lat" : -33.8599358,
-                  "lng" : 151.2090295
-               },
-               "viewport" : {
-                  "northeast" : {
-                     "lat" : -33.85824767010727,
-                     "lng" : 151.2102470798928
-                  },
-                  "southwest" : {
-                     "lat" : -33.86094732989272,
-                     "lng" : 151.2075474201073
-                  }
-               }
-            },
-            "name" : "Museum of Contemporary Art Australia",
-            "opening_hours" : {
-               "open_now" : false,
-               "weekday_text" : []
-            },
-            "photos" : [
-               {
-                  "height" : 2268,
-                  "html_attributions" : [
-                     "\u003ca href=\"https://maps.google.com/maps/contrib/113202928073475129698/photos\"\u003eEmily Zimny\u003c/a\u003e"
-                  ],
-                  "photo_reference" : "CmRaAAAAfxSORBfVmhZcERd-9eC5X1x1pKQgbmunjoYdGp4dYADIqC0AXVBCyeDNTHSL6NaG7-UiaqZ8b3BI4qZkFQKpNWTMdxIoRbpHzy-W_fntVxalx1MFNd3xO27KF3pkjYvCEhCd--QtZ-S087Sw5Ja_2O3MGhTr2mPMgeY8M3aP1z4gKPjmyfxolg",
-                  "width" : 4032
-               }
-            ],
-            "rating" : 4.3
-         }, 
-         {
-          "formatted_address" : "140 George St, The Rocks NSW 2000, Australia",
-          "geometry" : {
-             "location" : {
-                "lat" : -3323.8599358,
-                "lng" : 15123.2090295
-             },
-             "viewport" : {
-                "northeast" : {
-                   "lat" : -33.85824767010727,
-                   "lng" : 151.2102470798928
-                },
-                "southwest" : {
-                   "lat" : -33.86094732989272,
-                   "lng" : 151.2075474201073
-                }
-             }
-          },
-          "name" : "Museum of Contemporary Art Australia",
-          "opening_hours" : {
-             "open_now" : false,
-             "weekday_text" : []
-          },
-          "photos" : [
-             {
-                "height" : 2268,
-                "html_attributions" : [
-                   "\u003ca href=\"https://maps.google.com/maps/contrib/113202928073475129698/photos\"\u003eEmily Zimny\u003c/a\u003e"
-                ],
-                "photo_reference" : "CmRaAAAAfxSORBfVmhZcERd-9eC5X1x1pKQgbmunjoYdGp4dYADIqC0AXVBCyeDNTHSL6NaG7-UiaqZ8b3BI4qZkFQKpNWTMdxIoRbpHzy-W_fntVxalx1MFNd3xO27KF3pkjYvCEhCd--QtZ-S087Sw5Ja_2O3MGhTr2mPMgeY8M3aP1z4gKPjmyfxolg",
-                "width" : 4032
-             }
-          ],
-          "rating" : 4.3
-       }, 
-      ],
-      "status" : "OK",
-      "info_messages" : [
-         "Unsupported request parameter value: 'foo' ignored.",
-         "Unsupported request parameter value: 'bar' ignored.",
-     ],
-   }
-   console.log(tempData.candidates)
-   console.log(tempData.candidates.length)
-   const index = Math.floor(Math.random() * tempData.candidates.length)
-   const detourLat = tempData.candidates[index].geometry.location.lat
-   const detourLng = tempData.candidates[index].geometry.location.lng 
-   console.log(detourLat,detourLng)
+    //use setDetour and create ternary operator in return checking if detour in progress
+    //if detour === "" ? mapToDestination : mapToDetour
   }
 
   return (
