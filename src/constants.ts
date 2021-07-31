@@ -83,7 +83,7 @@ export const snowLocations = [
   [Snow9, "170px", "260px", "50px", "auto", "-30deg", "1"]
 ]
 
-// image, bottom, left, width, height, angle, flip                             
+// image, bottom, left, width, flip                             
 export const groundSnowLocations = [
   [Snow18, "45px", "-6px", "160px", "-1"],
   [Snow18, "35px", "205px", "150px", "-1"],
