@@ -1,24 +1,42 @@
 h1 {
-    font-size: 60px;
-    font-weight: 700;
-    text-align: center;
-    padding-top: 5vh;
-    background: -webkit-linear-gradient(0turn, #30E6FF, #8b44b8, #EE1D1D);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  font-size: 60px;
+  font-weight: 700;
+  text-align: center;
+  padding-top: 5vh;
+  background: -webkit-linear-gradient(0turn, #30e6ff, #8b44b8, #ee1d1d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 body {
-    margin: 0px;
-    border: 0px;
+  margin: 0px;
+  border: 0px;
 }
 
 .tree {
-    width: 160vw;
-    max-width: 160vw;
-    margin-left: -20px;
-    position: fixed;
-    bottom: 0px;
-    left: -15%;
-    z-index: -1;
+  width: 160vw;
+  max-width: 160vw;
+  margin-left: -20px;
+  position: fixed;
+  bottom: 0px;
+  left: -15%;
+  z-index: -1;
+}
+
+.dropdown-button {
+  padding-left: 2vw;
+}
+
+.suggestions {
+  padding: 20px;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  background-color: white;
+}
+
+.row {
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
