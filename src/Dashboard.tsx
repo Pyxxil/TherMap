@@ -9,7 +9,7 @@ interface Props {
   destination?: Location;
 }
 
-const Dashboard: React.FC<Props> = (props: any) => {
+const Dashboard: React.FC<Props> = (props) => {
   const { location } = useContext(LocationContext);
   let temperature = 0; // 0 cold, 100 hot
 
