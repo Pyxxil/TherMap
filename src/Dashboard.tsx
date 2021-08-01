@@ -20,6 +20,8 @@ const Dashboard: React.FC<Props> = (props) => {
   const [detour, setDetour] = useState(false);
   const [detourLocation, setDetourLocation] = useState<Location>();
   const [detourName, setDetourName] = useState("");
+  const [detourNumber, setDetourNumber] = useState(0);
+  const [originalDetourDistance, setOriginalDetourDistance] = useState(0);
   const savedCallback = useRef<number>();
   const [closer, setCloser] = useState(false);
   const [temperature, setTemperature] = useState(0);
@@ -30,10 +32,15 @@ const Dashboard: React.FC<Props> = (props) => {
       setOriginalDistance(newDistance);
       setDistance(newDistance);
       setCloser(newDistance < distance);
-    } else if (location && props.destination){
+    } else if (location && props.destination && !detour){ //not on deetour
       const newDistance = EuclideanDistance(location, props.destination);
       setDistance(EuclideanDistance(location, props.destination));
       setCloser(newDistance < distance);
+    } else if (location && props.destination && detour){ //on detour
+      const newDistance = EuclideanDistance(location, detourLocation!);
+      setDistance(EuclideanDistance(location, detourLocation!));
+      setCloser(newDistance < distance);
+      if (newDistance < 100) (setDetour(false))
     }
   }, [location, props.destination]);
 
@@ -47,7 +54,7 @@ const Dashboard: React.FC<Props> = (props) => {
   }, [location]);
 
   function nearbyLocations() {
-    if (location) {
+    if (location && !detour && detourNumber < 3) {
       var currentCoordinates = new google.maps.LatLng(location.lat,location.lng);
       var map = new google.maps.Map(mapRef.current!, {
         center: currentCoordinates,
@@ -57,20 +64,20 @@ const Dashboard: React.FC<Props> = (props) => {
         location: currentCoordinates,
         radius: 1000,
       };
-      //use setDetour and create ternary operator in return checking if detour in progress
-      //if detour ? mapToDetour : mapToDestination
+      service.nearbySearch(request,callback)
     }
   }
 
   function callback(results: google.maps.places.PlaceResult[] | null, status: google.maps.places.PlacesServiceStatus) {
     if (status == google.maps.places.PlacesServiceStatus.OK && results) {
-        console.log(results)
         const index = Math.floor(Math.random() * results.length);
         const detourLat = results[index].geometry?.location?.lat();
         const detourLng = results[index].geometry?.location?.lng();
         setDetourLocation({ lat: detourLat ?? 0, lng: detourLng ?? 0});
         setDetourName(results[index].name ?? "");
         setDetour(true);
+        setDetourNumber(detourNumber + 1);
+        setOriginalDetourDistance(EuclideanDistance(location!, detourLocation!))
     }
   }
 
@@ -88,13 +95,23 @@ const Dashboard: React.FC<Props> = (props) => {
         <div style={{display: "none"}} ref={mapRef}></div>
 
         <p>
-          {distance - originalDistance < 0 ? (
-            <div>warmer (closer)</div>
-          ) : distance - originalDistance > 0 ? (
-            <p>colder (further)</p>
-          ) : (
-            <div>same</div>
-          )}
+          {detour ?
+            distance - originalDistance < 0 ? (
+              <div>warmer (closer)</div>
+            ) : distance - originalDistance > 0 ? (
+              <p>colder (further)</p>
+            ) : (
+              <div>same</div>
+            )
+            :
+            distance - originalDetourDistance < 0 ? (
+              <div>warmer (closer)</div>
+            ) : distance - originalDetourDistance > 0 ? (
+              <p>colder (further)</p>
+            ) : (
+              <div>same</div>
+            )
+          }
         </p>
         
         <p>
