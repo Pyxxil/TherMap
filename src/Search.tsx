@@ -39,6 +39,23 @@ const Search: React.FC<Props> = (props) => {
     }
   }, [autocomplete]);
 
+  useEffect(() => {
+    // if (destination.length > 0) {
+    //   fetch(`${SEARCH_API}&input=${destination}`, { method: "POST" }).then(
+    //     (resp) => {
+    //       resp.json().then((locations: any[]) => {
+    //         console.debug(locations);
+    //         // setSuggestions(
+    //         //   locations
+    //         //     .filter((location) => !!location.geometry)
+    //         //     .map((location) => {})
+    //         // );
+    //       });
+    //     }
+    //   );
+    // }
+  }, [destination]);
+
   return (
     <div>
       <input
