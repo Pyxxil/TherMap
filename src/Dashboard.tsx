@@ -100,52 +100,7 @@ const Dashboard: React.FC<Props> = (props) => {
     }
   }
 
-  const snowflakeLocations = generateSnowflakes();
-
-  if (location && props.destination && originalDistance) {
-    return (
-      <div>
-        {/* <p>
-          Cool, lets go to {props.destination.lat},{props.destination.lng} from{" "}
-          {location?.lat},{location?.lng} with distance {distance} KM.
-        </p> */}
-
-        { detour && <p>Detouring to: {detourName}</p>}
-        <div style={{display: "none"}} ref={mapRef}></div>
-
-        <p>
-          {detour ?
-            distance - originalDetourDistance < 0 ? (
-              "Warmer (closer)"
-            ) : distance - originalDetourDistance > 0 ? (
-              "Colder (further)"
-            ) : (
-              "Haven't moved"
-            )
-            :
-            distance - originalDistance < 0 ? (
-              "Warmer (closer)"
-            ) : distance - originalDistance > 0 ? (
-              "Colder (further)"
-            ) : (
-              "Haven't moved"
-            )
-          }
-        </p>
-        
-        <p>
-          { closer ? 
-            "Warmer (closer)":
-            "Colder (further)"
-          }
-        </p>
-
-        <img src={Tree} className="tree" 
-          style={{filter: `sepia(${(temperature - 50) * 2})`, WebkitFilter: `sepia(${(temperature - 50) * 2}%)`}} />
-          
-        {temperature < 50 && snowLocations.map((location) => {
-          return <img src={location[0]} className="snow" style={{bottom: location[1], left: location[2], width: location[3], height: location[4], transform: `rotate(${location[5]}) scaleX(${location[6]})`}}/>
-  function determineFlameSize(original_size: string) {
+function determineFlameSize(original_size: string) {
     return parseInt(original_size) * ((temperature - 50) / 14);
   }
 
@@ -215,7 +170,7 @@ const Dashboard: React.FC<Props> = (props) => {
         })}
 
       {temperature < 50 &&
-        snowflakeLocations.map((snowflakeLocation) => {
+        snowflakeLocations.map((snowflakeLocation: any[]) => {
           return (
             <img
               src={snowflakeLocation[0]}
@@ -236,7 +191,7 @@ const Dashboard: React.FC<Props> = (props) => {
         })}
 
       {temperature > 50 &&
-        fireLocations.map((fireLocation) => {
+        fireLocations.map((fireLocation: any[]) => {
           return (
             <img
               src={fireLocation[0]}
@@ -247,37 +202,6 @@ const Dashboard: React.FC<Props> = (props) => {
                 left: determineFlameLeft(fireLocation[2], fireLocation[3]),
                 width: determineFlameSize(fireLocation[3]),
               }}
-            />
-          );
-        })}
-
-      {temperature < 50 &&
-        snowflakeLocations.map((location) => {
-          return (
-            <img
-              src={location[0]}
-              className="snow"
-              style={{
-                bottom: location[1],
-                left: location[2],
-                width: location[3],
-              }}
-            />
-          );
-        })}
-
-      {temperature > 50 &&
-        fireLocations.map((location) => {
-          return (
-            <img
-              src={location[0]}
-              style={{
-                bottom: location[1],
-                left: determineFlameLeft(location[2], location[3]),
-                width: location[3] + "px",
-              }}
-              className="fire"
-              key={location[1] + location[2]}
             />
           );
         })}

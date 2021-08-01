@@ -1,11 +1,4 @@
-import {
-  getFlameImage,
-  getFlameSize,
-  getSnowflakeImage,
-  getSnowflakeSize,
-  getSnowflakeX,
-  getSnowflakeY,
-} from "./Utils";
+import { getFlameImage, getFlameSize, getSnowflakeImage, getSnowflakeSize, getSnowflakeX, getSnowflakeY } from "./Utils";
 
 import Snow3 from "./img/snow03.png";
 import Snow5 from "./img/snow05.png";
@@ -43,18 +36,18 @@ export const fireLocations = [ // image, bottom, left, size
 
 // image, bottom, left, width, height, angle, flip
 export const snowLocations = [
-  [Snow3, "280px", "-10px", "80px", "auto", "0deg", "1"],
-  [Snow16, "370px", "90px", "130px", "70px", "0deg", "1"],
-  [Snow17, "250px", "300px", "80px", "100px", "0deg", "1"],
-  [Snow7, "270px", "140px", "150px", "70px", "0deg", "1"],
-  [Snow5, "200px", "-5px", "150px", "80px", "0deg", "1"],
-  [Snow9, "140px", "10px", "50px", "auto", "0deg", "-1"],
-  [Snow10, "130px", "80px", "60px", "40px", "0deg", "1"],
-  [Snow10, "125px", "180px", "60px", "40px", "-35deg", "-1"],
-  [Snow9, "170px", "260px", "50px", "auto", "-30deg", "1"],
-];
+    [Snow3, "280px", "-10px", "80px", "auto", "0deg", "1"], 
+    [Snow16, "370px", "90px", "130px", "70px", "0deg", "1"], 
+    [Snow17, "250px", "300px", "80px", "100px", "0deg", "1"], 
+    [Snow7, "270px", "140px", "150px", "70px", "0deg", "1"],
+    [Snow5, "200px", "-5px", "150px", "80px", "0deg", "1"],
+    [Snow9, "140px", "10px", "50px", "auto", "0deg", "-1"],
+    [Snow10, "130px", "80px", "60px", "40px", "0deg", "1"],
+    [Snow10, "125px", "180px", "60px", "40px", "-35deg", "-1"],
+    [Snow9, "170px", "260px", "50px", "auto", "-30deg", "1"]
+  ]
 
-// image, bottom, left, width, flip
+// image, bottom, left, width, flip                             
 export const groundSnowLocations = [
     [Snow18, "45px", "-6px", "160px", "-1"],
     [Snow18, "35px", "205px", "150px", "-1"],
@@ -73,3 +66,8 @@ export const groundSnowLocations = [
     [Snow18, "10px", "150px", "200px", "1"],
     [Snow18, "-8px", "200px", "220px", "1"]
   ]
+
+
+export const generateSnowflakes = new Array(50).fill([]).map((arr) => {
+    return [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()];
+})
