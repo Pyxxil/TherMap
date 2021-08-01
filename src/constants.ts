@@ -68,3 +68,8 @@ export const groundSnowLocations = [
     [Snow18, "10px", "150px", "200px", "1"],
     [Snow18, "-8px", "200px", "220px", "1"]
   ]
+
+
+export const generateSnowflakes = new Array(50).fill([]).map((arr) => {
+    return [getSnowflakeImage(), getSnowflakeY(), getSnowflakeX(), getSnowflakeSize()];
+})
