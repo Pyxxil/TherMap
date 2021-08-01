@@ -65,7 +65,7 @@ const Dashboard: React.FC<Props> = (props) => {
         {location?.lat},{location?.lng} with distance {distance} KM.
       </p>
 
-      <audio src={closer ? WarmerAudio : ColderAudio} autoPlay loop></audio>
+      <audio src={closer ? WarmerAudio : ColderAudio} loop autoPlay></audio>
 
       <p>{closer ? "warmer (closer)" : "colder (further)"}</p>
 
@@ -180,6 +180,24 @@ const Dashboard: React.FC<Props> = (props) => {
             />
           );
         })}
+
+      <div
+        style={{
+          position: "fixed",
+          bottom: 0,
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <button
+          style={{ opacity: "0", height: "10em", width: "45%" }}
+          onClick={() => setCloser(false)}
+        />
+        <button
+          style={{ opacity: "0", height: "10em", width: "45%" }}
+          onClick={() => setCloser(true)}
+        />
+      </div>
     </div>
   );
 };
