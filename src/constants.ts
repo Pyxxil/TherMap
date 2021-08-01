@@ -18,10 +18,6 @@ import Snow18 from "./img/snow18.png";
 
 const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY?.toString() ?? "";
 
-export const GEOLOCATION_API = `https://www.googleapis.com/geolocation/v1/geolocate?key=${API_KEY}`;
-
-export const SEARCH_API = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=${API_KEY}&inputtype=textquery`;
-
 export const fireLocations = [
   // image, bottom, left, size
   [getFlameImage(), "400px", "140", getFlameSize()],
@@ -78,3 +74,12 @@ export const groundSnowLocations = [
   [Snow18, "10px", "150px", "200px", "1"],
   [Snow18, "-8px", "200px", "220px", "1"],
 ];
+
+export const generateSnowflakes = new Array(50).fill([]).map((arr) => {
+  return [
+    getSnowflakeImage(),
+    getSnowflakeY(),
+    getSnowflakeX(),
+    getSnowflakeSize(),
+  ];
+});

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { SEARCH_API } from "./constants";
 import { Location } from "./Location";
 
 import "./styles.css";
