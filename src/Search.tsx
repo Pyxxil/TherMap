@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Location } from "./Location";
 
 import "./styles.css";
@@ -9,19 +9,35 @@ interface Props {
 
 const Search: React.FC<Props> = (props) => {
   const [updated, setUpdated] = useState(false);
+  const autocomplete = useRef<HTMLInputElement>(null);
+  const autocompleteElement = useRef<google.maps.places.Autocomplete>();
   const [destination, setDestination] = useState("");
-  const [suggestions, setSuggestions] = useState<
-    { name: string; location: Location }[]
-  >([
-    { name: "Grid AKL", location: { lat: -36.8421652, lng: 174.7565977 } },
-    { name: "Sky Tower", location: { lat: -36.848448, lng: 174.7600023 } },
-    {
-      name: "The University of Auckland",
-      location: { lat: -36.8523378, lng: 174.7669186 },
-    },
-    { name: "Albert Park", location: { lat: -36.8506426, lng: 174.7656994 } },
-    { name: "Pakuranga", location: { lat: -36.88333, lng: 174.91667 } },
-  ]);
+
+  useEffect(() => {
+    if (autocomplete.current) {
+      const options = {
+        componentRestrictions: { country: "nz" },
+        fields: ["address_components", "geometry", "icon", "name"],
+        strictBounds: false,
+        types: ["establishment"],
+      };
+
+      autocompleteElement.current = new google.maps.places.Autocomplete(
+        autocomplete.current,
+        options
+      );
+
+      autocompleteElement.current.addListener("place_changed", () => {
+        const place = autocompleteElement.current?.getPlace();
+        if (place)
+          props.found({
+            lat: place.geometry?.location?.lat() ?? 0,
+            lng: place.geometry?.location?.lng() ?? 0,
+          });
+        setDestination(place?.name ?? destination);
+      });
+    }
+  }, [autocomplete]);
 
   useEffect(() => {
     // if (destination.length > 0) {
@@ -43,41 +59,15 @@ const Search: React.FC<Props> = (props) => {
   return (
     <div>
       <input
+        ref={autocomplete}
         placeholder="Where would you like to go?"
         value={destination}
         onChange={(event) => {
           setUpdated(true);
           setDestination(event.target.value);
-          if (event.target.value.length === 0) {
-            props.found(undefined);
-          }
         }}
         className="input-field"
       />
-      <div
-        className="container suggestions"
-        style={{
-          display: !updated || destination.length === 0 ? "none" : "block",
-        }}
-      >
-        {suggestions
-          .filter((suggestion) =>
-            suggestion.name.toLowerCase().includes(destination.toLowerCase())
-          )
-          .map((suggestion) => (
-            <button
-              key={suggestion.name}
-              className="row button button-outline dropdown-button"
-              onClick={() => {
-                setUpdated(false);
-                setDestination(suggestion.name);
-                props.found(suggestion.location);
-              }}
-            >
-              {suggestion.name}
-            </button>
-          ))}
-      </div>
     </div>
   );
 };

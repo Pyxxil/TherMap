@@ -1,16 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Wrapper } from "@googlemaps/react-wrapper";
 
 import "milligram";
 
 import LocationProvider from "./Location";
 import App from "./App";
+import { API_KEY } from "./constants";
 
 ReactDOM.render(
   <React.StrictMode>
-    <LocationProvider>
-      <App />
-    </LocationProvider>
+    <Wrapper apiKey={API_KEY} libraries={["places"]}>
+      <LocationProvider>
+        <App />
+      </LocationProvider>
+    </Wrapper>
   </React.StrictMode>,
   document.getElementById("root")
 );

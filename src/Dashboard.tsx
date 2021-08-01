@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 
 import { Location, LocationContext } from "./Location";
 
@@ -26,10 +26,17 @@ interface Props {
 
 const Dashboard: React.FC<Props> = (props) => {
   const { location } = useContext(LocationContext);
+  const mapRef = useRef(null);
   const [distance, setDistance] = useState(0);
-  const [originalDistance, setOriginalDistance] = useState<number>();
+  const [originalDistance, setOriginalDistance] = useState(0);
+  const [detour, setDetour] = useState(false);
+  const [detourLocation, setDetourLocation] = useState<Location>();
+  const [detourName, setDetourName] = useState("");
+  const [detourNumber, setDetourNumber] = useState(0);
+  const [originalDetourDistance, setOriginalDetourDistance] = useState(0);
+  const savedCallback = useRef<number>();
   const [closer, setCloser] = useState(false);
-  const [temperature, setTemparature] = useState(0); // 0 cold, 100 hot
+  const [temperature, setTemperature] = useState(0);
 
   useEffect(() => {
     if (!originalDistance && location && props.destination) {
@@ -37,14 +44,63 @@ const Dashboard: React.FC<Props> = (props) => {
       setOriginalDistance(newDistance);
       setDistance(newDistance);
       setCloser(newDistance < distance);
-    } else if (location && props.destination) {
+    } else if (location && props.destination && !detour){ //not on deetour
       const newDistance = EuclideanDistance(location, props.destination);
       setDistance(EuclideanDistance(location, props.destination));
       setCloser(newDistance < distance);
+    } else if (location && props.destination && detour){ //on detour
+      const newDistance = EuclideanDistance(location, detourLocation!);
+      setDistance(EuclideanDistance(location, detourLocation!));
+      setCloser(newDistance < distance);
+      if (newDistance < 0.1) (setDetour(false))
     }
   }, [location, props.destination]);
 
-  function determineFlameSize(original_size: string) {
+  useEffect(() => {
+    if (savedCallback.current) {
+      clearTimeout(savedCallback.current);
+      savedCallback.current = undefined;
+    }
+
+    savedCallback.current = setTimeout(() => nearbyLocations(), 10000);
+
+    return () => {
+      if (savedCallback.current) {
+        clearTimeout(savedCallback.current);
+      }
+    };
+  }, [location]);
+
+  function nearbyLocations() {
+    if (location && !detour && detourNumber < 3) {
+      var currentCoordinates = new google.maps.LatLng(location.lat,location.lng);
+      var map = new google.maps.Map(mapRef.current!, {
+        center: currentCoordinates,
+      });
+      var service = new google.maps.places.PlacesService(map);
+      var request = {
+        location: currentCoordinates,
+        radius: 1000,
+      };
+      service.nearbySearch(request,callback)
+    }
+  }
+
+  function callback(results: google.maps.places.PlaceResult[] | null, status: google.maps.places.PlacesServiceStatus) {
+    if (status == google.maps.places.PlacesServiceStatus.OK && results) {
+        const index = Math.floor(Math.random() * results.length);
+        const detourLat = results[index].geometry?.location?.lat();
+        const detourLng = results[index].geometry?.location?.lng();
+        const detourLoc = { lat: detourLat ?? 0, lng: detourLng ?? 0};
+        setDetourLocation(detourLoc);
+        setDetourName(results[index].name ?? "");
+        setDetour(true);
+        setDetourNumber(detourNumber + 1);
+        setOriginalDetourDistance(EuclideanDistance(location!, detourLoc))
+    }
+  }
+
+function determineFlameSize(original_size: string) {
     return parseInt(original_size) * ((temperature - 50) / 14);
   }
 
@@ -114,7 +170,7 @@ const Dashboard: React.FC<Props> = (props) => {
         })}
 
       {temperature < 50 &&
-        snowflakeLocations.map((snowflakeLocation) => {
+        snowflakeLocations.map((snowflakeLocation: any[]) => {
           return (
             <img
               src={snowflakeLocation[0]}
@@ -135,7 +191,7 @@ const Dashboard: React.FC<Props> = (props) => {
         })}
 
       {temperature > 50 &&
-        fireLocations.map((fireLocation) => {
+        fireLocations.map((fireLocation: any[]) => {
           return (
             <img
               src={fireLocation[0]}
@@ -146,37 +202,6 @@ const Dashboard: React.FC<Props> = (props) => {
                 left: determineFlameLeft(fireLocation[2], fireLocation[3]),
                 width: determineFlameSize(fireLocation[3]),
               }}
-            />
-          );
-        })}
-
-      {temperature < 50 &&
-        snowflakeLocations.map((location) => {
-          return (
-            <img
-              src={location[0]}
-              className="snow"
-              style={{
-                bottom: location[1],
-                left: location[2],
-                width: location[3],
-              }}
-            />
-          );
-        })}
-
-      {temperature > 50 &&
-        fireLocations.map((location) => {
-          return (
-            <img
-              src={location[0]}
-              style={{
-                bottom: location[1],
-                left: determineFlameLeft(location[2], location[3]),
-                width: location[3] + "px",
-              }}
-              className="fire"
-              key={location[1] + location[2]}
             />
           );
         })}
