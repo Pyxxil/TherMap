@@ -37,7 +37,7 @@ body {
 }
 
 .input-field {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .suggestions {
@@ -53,14 +53,14 @@ body {
 }
 
 .rotate {
-    animation: rotation 15s infinite linear;
-  }
+  animation: rotation 15s infinite linear;
+}
 
 @keyframes rotation {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(359deg);
-    }
+  from {
+    transform: rotate(0deg);
   }
+  to {
+    transform: rotate(359deg);
+  }
+}

@@ -1,7 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-
-import { GEOLOCATION_API } from "./constants";
-
 export interface Location {
   lat: number;
   lng: number;
