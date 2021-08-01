@@ -38,21 +38,43 @@ const Dashboard: React.FC<Props> = (props) => {
   const [closer, setCloser] = useState(false);
   const [temperature, setTemperature] = useState(0);
 
+  const updateTemperature = (newDistance: number) => {
+    const newTemperature = Math.ceil(
+      ((originalDistance - newDistance) / originalDistance) * 100
+    );
+    if (!isNaN(newTemperature) && isFinite(newTemperature)) {
+      setTemperature(Math.min(100, Math.max(newTemperature, 0)));
+    } else {
+      setTemperature(0);
+    }
+  };
+
   useEffect(() => {
     if (!originalDistance && location && props.destination) {
       const newDistance = EuclideanDistance(location, props.destination);
       setOriginalDistance(newDistance);
       setDistance(newDistance);
       setCloser(newDistance < distance);
-    } else if (location && props.destination && !detour){ //not on deetour
+      updateTemperature(newDistance);
+    } else if (location && props.destination && !detour) {
+      //not on deetour
       const newDistance = EuclideanDistance(location, props.destination);
       setDistance(EuclideanDistance(location, props.destination));
       setCloser(newDistance < distance);
-    } else if (location && props.destination && detour){ //on detour
+      updateTemperature(newDistance);
+    } else if (location && props.destination && detour) {
+      //on detour
       const newDistance = EuclideanDistance(location, detourLocation!);
       setDistance(EuclideanDistance(location, detourLocation!));
       setCloser(newDistance < distance);
-      if (newDistance < 0.1) (setDetour(false))
+
+      if (newDistance < 0.1) {
+        setDetour(false);
+        const dist = EuclideanDistance(location, props.destination);
+        updateTemperature(dist);
+      } else {
+        updateTemperature(newDistance);
+      }
     }
   }, [location, props.destination]);
 
@@ -73,7 +95,10 @@ const Dashboard: React.FC<Props> = (props) => {
 
   function nearbyLocations() {
     if (location && !detour && detourNumber < 3) {
-      var currentCoordinates = new google.maps.LatLng(location.lat,location.lng);
+      var currentCoordinates = new google.maps.LatLng(
+        location.lat,
+        location.lng
+      );
       var map = new google.maps.Map(mapRef.current!, {
         center: currentCoordinates,
       });
@@ -82,25 +107,28 @@ const Dashboard: React.FC<Props> = (props) => {
         location: currentCoordinates,
         radius: 1000,
       };
-      service.nearbySearch(request,callback)
+      service.nearbySearch(request, callback);
     }
   }
 
-  function callback(results: google.maps.places.PlaceResult[] | null, status: google.maps.places.PlacesServiceStatus) {
+  function callback(
+    results: google.maps.places.PlaceResult[] | null,
+    status: google.maps.places.PlacesServiceStatus
+  ) {
     if (status == google.maps.places.PlacesServiceStatus.OK && results) {
-        const index = Math.floor(Math.random() * results.length);
-        const detourLat = results[index].geometry?.location?.lat();
-        const detourLng = results[index].geometry?.location?.lng();
-        const detourLoc = { lat: detourLat ?? 0, lng: detourLng ?? 0};
-        setDetourLocation(detourLoc);
-        setDetourName(results[index].name ?? "");
-        setDetour(true);
-        setDetourNumber(detourNumber + 1);
-        setOriginalDetourDistance(EuclideanDistance(location!, detourLoc))
+      const index = Math.floor(Math.random() * results.length);
+      const detourLat = results[index].geometry?.location?.lat();
+      const detourLng = results[index].geometry?.location?.lng();
+      const detourLoc = { lat: detourLat ?? 0, lng: detourLng ?? 0 };
+      setDetourLocation(detourLoc);
+      setDetourName(results[index].name ?? "");
+      setDetour(true);
+      setDetourNumber(detourNumber + 1);
+      setOriginalDetourDistance(EuclideanDistance(location!, detourLoc));
     }
   }
 
-function determineFlameSize(original_size: string) {
+  function determineFlameSize(original_size: string) {
     return parseInt(original_size) * ((temperature - 50) / 14);
   }
 
@@ -110,20 +138,18 @@ function determineFlameSize(original_size: string) {
 
   const snowflakeLocations = generateSnowflakes;
 
+  console.debug(temperature);
+
   if (!(location && props.destination && originalDistance)) {
     return <></>;
   }
 
   return (
     <div>
-      <p>
-        Cool, lets go to {props.destination.lat},{props.destination.lng} from{" "}
-        {location?.lat},{location?.lng} with distance {distance} KM.
-      </p>
+      <div ref={mapRef} style={{ display: "none" }}></div>
 
       <audio src={closer ? WarmerAudio : ColderAudio} autoPlay loop></audio>
-
-      <p>{closer ? "warmer (closer)" : "colder (further)"}</p>
+      {detour && <p>Detouring to {detourName}</p>}
 
       <img
         src={Tree}
@@ -140,6 +166,7 @@ function determineFlameSize(original_size: string) {
             <img
               src={snowLocation[0]}
               className="snow"
+              key={snowLocation[1] + snowLocation[2]}
               style={{
                 opacity: `${(50 - temperature) / 50}`,
                 bottom: snowLocation[1],
@@ -158,6 +185,7 @@ function determineFlameSize(original_size: string) {
             <img
               src={groundSnowLocation[0]}
               className="snow"
+              key={groundSnowLocation[1] + groundSnowLocation[2]}
               style={{
                 opacity: `${(50 - temperature) / 50}`,
                 bottom: groundSnowLocation[1],
@@ -175,6 +203,7 @@ function determineFlameSize(original_size: string) {
             <img
               src={snowflakeLocation[0]}
               className="snow rotate"
+              key={snowflakeLocation[1] + snowflakeLocation[2]}
               style={{
                 bottom: determinePosition(
                   snowflakeLocation[1],
