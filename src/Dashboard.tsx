@@ -33,7 +33,7 @@ const Dashboard: React.FC<Props> = (props) => {
     
   }, [location, props.destination]);
   
-  let temperature = 10; // 0 cold, 100 hot
+  let temperature = 0; // 0 cold, 100 hot
   let snowflakeLocations = generateSnowflakes;
 
   console.log(snowflakeLocations);
@@ -65,13 +65,13 @@ const Dashboard: React.FC<Props> = (props) => {
           style={{filter: `sepia(${(temperature - 50) * 2})`, WebkitFilter: `sepia(${(temperature - 50) * 2}%)`}} />
           
         {temperature < 50 && snowLocations.map((snowLocation) => {
-          return <img src={snowLocation[0]} className="snow" 
-            style={{bottom: snowLocation[1], left: snowLocation[2], width: snowLocation[3], height: snowLocation[4], transform: `rotate(${snowLocation[5]}) scaleX(${snowLocation[6]})`}}/>
+          return <img src={snowLocation[0]} className="snow"
+            style={{opacity: `${(50 - temperature) / 50}`, bottom: snowLocation[1], left: snowLocation[2], width: snowLocation[3], height: snowLocation[4], transform: `rotate(${snowLocation[5]}) scaleX(${snowLocation[6]})`}}/>
         })}
 
         {temperature < 50 && groundSnowLocations.map((groundSnowLocation) => {
           return <img src={groundSnowLocation[0]} className="snow" 
-            style={{bottom: groundSnowLocation[1], left: groundSnowLocation[2], width: groundSnowLocation[3], transform: `scaleX(${groundSnowLocation[4]})`}}/>
+            style={{opacity: `${(50 - temperature) / 50}`, bottom: groundSnowLocation[1], left: groundSnowLocation[2], width: groundSnowLocation[3], transform: `scaleX(${groundSnowLocation[4]})`}}/>
         })}
         
         {temperature < 50 && snowflakeLocations.map((snowflakeLocation) => {
