@@ -75,7 +75,7 @@ const Dashboard: React.FC<Props> = (props) => {
         })}
         
         {temperature < 50 && snowflakeLocations.map((snowflakeLocation) => {
-          return <img src={snowflakeLocation[0]} className="snow" 
+          return <img src={snowflakeLocation[0]} className="snow rotate" 
             style={{bottom: determinePosition(snowflakeLocation[1],  determineSnowFlakeSize(snowflakeLocation[3]).toString()), left: determinePosition(snowflakeLocation[2],  determineSnowFlakeSize(snowflakeLocation[3]).toString()), width: determineSnowFlakeSize(snowflakeLocation[3])}}/>
         })}
 
