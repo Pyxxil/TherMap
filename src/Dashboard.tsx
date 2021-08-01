@@ -96,17 +96,17 @@ const Dashboard: React.FC<Props> = (props) => {
 
         <p>
           {detour ?
-            distance - originalDistance < 0 ? (
+            distance - originalDetourDistance < 0 ? (
               <div>warmer (closer)</div>
-            ) : distance - originalDistance > 0 ? (
+            ) : distance - originalDetourDistance > 0 ? (
               <p>colder (further)</p>
             ) : (
               <div>same</div>
             )
             :
-            distance - originalDetourDistance < 0 ? (
+            distance - originalDistance < 0 ? (
               <div>warmer (closer)</div>
-            ) : distance - originalDetourDistance > 0 ? (
+            ) : distance - originalDistance > 0 ? (
               <p>colder (further)</p>
             ) : (
               <div>same</div>
