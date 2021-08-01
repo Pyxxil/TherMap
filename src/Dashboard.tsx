@@ -118,7 +118,7 @@ const Dashboard: React.FC<Props> = (props) => {
           return (
             <img
               src={snowflakeLocation[0]}
-              className="snow"
+              className="snow rotate"
               style={{
                 bottom: determinePosition(
                   snowflakeLocation[1],
