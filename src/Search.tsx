@@ -11,7 +11,7 @@ const Search: React.FC<Props> = (props) => {
   const [updated, setUpdated] = useState(false);
   const autocomplete = useRef<HTMLInputElement>(null);
   const autocompleteElement = useRef<google.maps.places.Autocomplete>();
-  const [destination, setDestination] = useState("string");
+  const [destination, setDestination] = useState("");
 
   useEffect(() => {
     if (autocomplete.current) {

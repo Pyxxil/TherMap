@@ -40,12 +40,18 @@ const Dashboard: React.FC<Props> = (props) => {
       const newDistance = EuclideanDistance(location, detourLocation!);
       setDistance(EuclideanDistance(location, detourLocation!));
       setCloser(newDistance < distance);
-      if (newDistance < 100) (setDetour(false))
+      if (newDistance < 0.1) (setDetour(false))
     }
   }, [location, props.destination]);
 
   useEffect(() => {
+    if (savedCallback.current) {
+      clearTimeout(savedCallback.current);
+      savedCallback.current = undefined;
+    }
+
     savedCallback.current = setTimeout(() => nearbyLocations(), 10000);
+
     return () => {
       if (savedCallback.current) {
         clearTimeout(savedCallback.current);
@@ -73,11 +79,12 @@ const Dashboard: React.FC<Props> = (props) => {
         const index = Math.floor(Math.random() * results.length);
         const detourLat = results[index].geometry?.location?.lat();
         const detourLng = results[index].geometry?.location?.lng();
-        setDetourLocation({ lat: detourLat ?? 0, lng: detourLng ?? 0});
+        const detourLoc = { lat: detourLat ?? 0, lng: detourLng ?? 0};
+        setDetourLocation(detourLoc);
         setDetourName(results[index].name ?? "");
         setDetour(true);
         setDetourNumber(detourNumber + 1);
-        setOriginalDetourDistance(EuclideanDistance(location!, detourLocation!))
+        setOriginalDetourDistance(EuclideanDistance(location!, detourLoc))
     }
   }
 
@@ -86,10 +93,10 @@ const Dashboard: React.FC<Props> = (props) => {
   if (location && props.destination && originalDistance) {
     return (
       <div>
-        <p>
+        {/* <p>
           Cool, lets go to {props.destination.lat},{props.destination.lng} from{" "}
           {location?.lat},{location?.lng} with distance {distance} KM.
-        </p>
+        </p> */}
 
         { detour && <p>Detouring to: {detourName}</p>}
         <div style={{display: "none"}} ref={mapRef}></div>
@@ -97,27 +104,27 @@ const Dashboard: React.FC<Props> = (props) => {
         <p>
           {detour ?
             distance - originalDetourDistance < 0 ? (
-              <div>warmer (closer)</div>
+              "Warmer (closer)"
             ) : distance - originalDetourDistance > 0 ? (
-              <p>colder (further)</p>
+              "Colder (further)"
             ) : (
-              <div>same</div>
+              "Haven't moved"
             )
             :
             distance - originalDistance < 0 ? (
-              <div>warmer (closer)</div>
+              "Warmer (closer)"
             ) : distance - originalDistance > 0 ? (
-              <p>colder (further)</p>
+              "Colder (further)"
             ) : (
-              <div>same</div>
+              "Haven't moved"
             )
           }
         </p>
         
         <p>
           { closer ? 
-            "warmer (closer)":
-            "colder (further)"
+            "Warmer (closer)":
+            "Colder (further)"
           }
         </p>
 
