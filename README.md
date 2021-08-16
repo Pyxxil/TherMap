@@ -1,4 +1,5 @@
 # TherMap
+![TherMap](./thermapFront.PNG)  
 
 TherMap is a webapp that allows users to enter their destination, and then through the use of "hot" and "cold" sound cues, directs them to their final destination. There is no map, only a tree that can either burn or freeze depend on how far the user is to their location. Once a user is about to reach their destination, the app will route them to a point of interest, making them procastination. 
 
@@ -25,3 +26,5 @@ https://user-images.githubusercontent.com/40555861/129508211-a3d0d6b8-e05c-4d09-
 [Josh Hill](https://www.linkedin.com/in/josh-hill-b655131a1/)  
 [Ryan Tan](https://www.linkedin.com/in/rtan18/)  
 [Kelvin Ngor](https://www.linkedin.com/in/kelvin-ngor-513619160/)
+
+![TherMap](./ThankYou.PNG) 
