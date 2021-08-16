@@ -25,6 +25,7 @@ https://user-images.githubusercontent.com/40555861/129508211-a3d0d6b8-e05c-4d09-
 [Kimberley Evans-Parker](https://www.linkedin.com/in/kimberley-evans-parker/)  
 [Josh Hill](https://www.linkedin.com/in/josh-hill-b655131a1/)  
 [Ryan Tan](https://www.linkedin.com/in/rtan18/)  
-[Kelvin Ngor](https://www.linkedin.com/in/kelvin-ngor-513619160/)
+[Kelvin Ngor](https://www.linkedin.com/in/kelvin-ngor-513619160/)  
+[Ryan's wallet](https://www.google.com/search?q=empty+wallet&sxsrf=ALeKk00kHcVhVZuQ-zb2cPu9wAe7hUR-2Q:1629086428950&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiClp_v07TyAhXzzDgGHYFkBggQ_AUoAXoECAEQAw&biw=1536&bih=753&dpr=2.5#imgrc=KklJy2VLumW9rM) (For Google Maps API call)
 
 ![TherMap](./ThankYou.PNG) 
