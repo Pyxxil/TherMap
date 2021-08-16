@@ -10,7 +10,7 @@ The theme for the 2021 WDCC x SESA Hackathon was "Facilitating Procastination". 
 
 ## Results:
 Our team came third! Here's a photo of the team:  
-![Third Place Photo](./readmeImages/groupPhoto.jpg)  
+![Third Place Photo](./ThirdPlace.jpg)  
 
 ## Video
 We created a fun video to showcase what we've built over the weekend.
